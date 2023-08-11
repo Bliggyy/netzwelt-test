@@ -29,7 +29,25 @@ function Login() {
   };
 
   const login = (username: String, password: String) => {
-    console.log(username + " " + password);
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      fetch("http://localhost:8000/account/login", options)
+        .then((response) => response.json())
+        .then((user) => {
+          console.log(user);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleEvent = (e: any) => {
