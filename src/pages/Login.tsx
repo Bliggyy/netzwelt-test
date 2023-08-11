@@ -21,7 +21,6 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(user);
     if (user.isAuthenticated === true) {
       navigate("/home/index");
     }

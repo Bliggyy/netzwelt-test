@@ -42,6 +42,7 @@ app.get("/home/index", async (req, res) => {
     const response = await axios.get(url);
     if (response.status === 200) {
       const responseData = response.data;
+      console.log("Data successfully retrieved");
       res.status(200).json(responseData);
     }
   } catch (error) {
