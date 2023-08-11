@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const initialUser = {
-  username: "",
-  displayName: "",
-  roles: [],
-  isAuthenticated: false,
-};
-
 function Login() {
-  const [user, setUser] = useState(initialUser);
+  const initialUser = {
+    username: "",
+    displayName: "",
+    roles: [],
+    isAuthenticated: false,
+  };
+
+  const getUser = JSON.parse(
+    localStorage.getItem("user") || JSON.stringify(initialUser)
+  );
+
+  const [user, setUser] = useState(getUser);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,18 +21,11 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkUserState();
+    console.log(user);
     if (user.isAuthenticated === true) {
       navigate("/home/index");
     }
   }, []);
-
-  const checkUserState = () => {
-    const getUser = JSON.parse(localStorage.getItem("user") || "{}");
-    if (getUser !== "{}") {
-      setUser(getUser);
-    }
-  };
 
   const login = (username: String, password: String) => {
     const options = {

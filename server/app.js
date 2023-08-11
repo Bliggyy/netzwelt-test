@@ -36,6 +36,28 @@ app.post("/account/login", async (req, res) => {
   }
 });
 
+app.get("/home/index", async (req, res) => {
+  const url = "https://netzwelt-devtest.azurewebsites.net/Territories/All";
+  try {
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      const responseData = response.data;
+      res.status(200).json(responseData);
+    }
+  } catch (error) {
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+      res.status(error.response.status).json(error.response.data);
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    }
+  }
+});
+
 app.listen(port, () => {
   console.log("CORS-enabled web server listening on port 8000");
 });
