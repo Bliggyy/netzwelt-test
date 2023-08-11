@@ -3,3 +3,26 @@
   width: 50%;
   margin: auto;
 }
+
+.category-name {
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
+}
+
+.category-name::before {
+  content: "▸";
+  position: absolute;
+  right: calc(100% + 4px);
+  top: calc(50% - 11px);
+  opacity: 0.75;
+  transition: transform 0.2s;
+}
+
+.category-name.open::before {
+  transform: rotate(90deg);
+}
+
+.segment {
+  opacity: 0.7;
+}
