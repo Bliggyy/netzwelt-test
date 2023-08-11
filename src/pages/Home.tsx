@@ -42,30 +42,7 @@ function Home() {
     }
   };
 
-  // const sortTerritories = (data: any[]) => {
-  //   const table: any = [];
-  //   data.forEach((el) => {
-  //     if (!table[el.parent]) {
-  //       table[el.parent] = [];
-  //     }
-  //     table[el.parent].push(el);
-  //   });
-  //   const result: any = [];
-  //   const constructResult = (key: any) => {
-  //     if (table[key]) {
-  //       table[key].forEach((el: any) => {
-  //         result.push(el);
-  //         constructResult(el.id);
-  //       });
-  //     }
-  //   };
-
-  //   constructResult(null);
-  //   return result;
-  // };
-
   const setMainAreas = (areas: any) => {
-    // console.log(areas);
     const value1 = areas.filter((territory: any) => {
       return territory.name == "Metro Manila";
     });
@@ -80,20 +57,13 @@ function Home() {
     setCentralLuzon({ ...value3[0] });
   };
 
-  // const getMetroManila = () => {
-  //   console.log(
-  //     territories.filter((territory) => {
-  //       return territory.name === "Metro Manila";
-  //     })
-  //   );
-  //   console.log(metroManila);
-  //   getTerritories();
-  // };
-
   return (
     <>
       <h1>Territories</h1>
-      <h3 onClick={getTerritories}>Here are the list of territories</h3>
+      <h3 onClick={getTerritories}>
+        Here are the list of territories (you may need to click me a couple of
+        times)
+      </h3>
       <TreeList item={metroManila} />
       <TreeList item={calabarzon} />
       <TreeList item={centralLuzon} />
