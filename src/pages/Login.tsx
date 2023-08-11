@@ -12,19 +12,23 @@ function Login() {
   const [user, setUser] = useState(initialUser);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorBox, setErrorBox] = useState("none");
   const navigate = useNavigate();
 
   useEffect(() => {
     checkUserState();
+    console.log(user);
     if (user.isAuthenticated === true) {
-      navigate("home/index");
+      navigate("/home/index");
     }
   }, []);
 
   const checkUserState = () => {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if (user !== "{}") {
-      setUser(user);
+    const getUser = JSON.parse(localStorage.getItem("user") || "{}");
+    console.log(getUser);
+    if (getUser !== "{}") {
+      setUser(getUser);
     }
   };
 
@@ -43,7 +47,20 @@ function Login() {
       fetch("http://localhost:8000/account/login", options)
         .then((response) => response.json())
         .then((user) => {
-          console.log(user);
+          if (user.hasOwnProperty("message")) {
+            setErrorBox("block");
+            setErrorMessage(user.message);
+          } else {
+            const newUser = {
+              username: user.username,
+              displayName: user.displayName,
+              roles: user.roles,
+              isAuthenticated: true,
+            };
+            setUser(newUser);
+            localStorage.setItem("user", JSON.stringify(newUser));
+            navigate("/");
+          }
         });
     } catch (error) {
       console.log(error);
@@ -59,6 +76,9 @@ function Login() {
     <>
       <div className="container border p-4">
         <h1 className="mb-4">Welcome to Login Page</h1>
+        <div className={`alert alert-danger d-${errorBox}`} role="alert">
+          {errorMessage}
+        </div>
         <form onSubmit={handleEvent}>
           <div className="form-group mb-3">
             <label className="mb-1">Username</label>
