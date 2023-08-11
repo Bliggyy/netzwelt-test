@@ -18,7 +18,6 @@ function Login() {
 
   useEffect(() => {
     checkUserState();
-    console.log(user);
     if (user.isAuthenticated === true) {
       navigate("/home/index");
     }
@@ -26,7 +25,6 @@ function Login() {
 
   const checkUserState = () => {
     const getUser = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log(getUser);
     if (getUser !== "{}") {
       setUser(getUser);
     }
@@ -59,7 +57,7 @@ function Login() {
             };
             setUser(newUser);
             localStorage.setItem("user", JSON.stringify(newUser));
-            navigate("/");
+            navigate("/home/index");
           }
         });
     } catch (error) {
