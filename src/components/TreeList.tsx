@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TreeList = ({ item }: any) => {
-  // console.log(item);
   const [data, setData] = useState([]);
   const [children, setChildren] = useState([]);
-  const onClick = () => setData(load(item.id));
+  const onClick = data.length <= 0 ? () => setData(load()) : () => setData([]);
 
-  const loadTerritories = (parent: any) => {
+  useEffect(() => {
+    loadTerritories(item.id);
+  }, [data]);
+
+  const loadTerritories = async (parent: any) => {
     try {
-      fetch("http://localhost:8000/home/index")
+      await fetch("http://localhost:8000/home/index")
         .then((response) => response.json())
         .then((data) => {
-          const value = data.data.filter((el: any) => el.parent === parent);
-          setChildren(value);
+          setChildren(data.data.filter((el: any) => el.parent === parent));
         });
     } catch (error) {
       console.log(error);
@@ -29,19 +31,17 @@ const TreeList = ({ item }: any) => {
     return <Cmp item={item} />;
   };
 
-  const load = (parent: any) => {
-    loadTerritories(parent);
-    console.log(children);
+  const load = () => {
     return children;
   };
 
   return (
     <div className="category">
-      <div className={`category-name ${data ? "open" : ""}`} onClick={onClick}>
+      <div className={`category-name ${data ? "open" : ""} `} onClick={onClick}>
         {item.name}
       </div>
 
-      {data && (
+      {data.length ? (
         <ul>
           {data.map((child, i) => (
             <li key={i}>
@@ -49,6 +49,8 @@ const TreeList = ({ item }: any) => {
             </li>
           ))}
         </ul>
+      ) : (
+        <></>
       )}
     </div>
   );
